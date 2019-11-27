@@ -2,7 +2,7 @@
   <div class="login_container">
     <div class="login_box">
       <div class="avatar_box">
-        <img src="../assets/logo.png" />
+        <img src="../assets/images/logo.png" />
       </div>
       <el-form class="login-form" :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
         <el-form-item prop="username">
@@ -54,10 +54,10 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        const { data: res } = await this.$http.post('/login', this.loginForm)
-        console.log(res)
-        if (res.meta.status !== 200) return this.$message.error('登录失败！')
-        this.$message.success('登录成功！')
+        const { data: res } = await this.$http.post('login', this.loginForm)
+        // console.log(res)
+        if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
+        this.$message.success(res.meta.msg)
         window.sessionStorage.setItem('token', res.data.token)
         this.$router.push('/home')
         // then方法处理axios返回数据
