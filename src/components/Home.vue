@@ -18,6 +18,7 @@
           :collapse="isCollapse"
           :collapse-transition="false"
           router
+          :default-active="activePath"
         >
           <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
             <template slot="title">
@@ -25,12 +26,15 @@
               <span>{{item.authName}}</span>
             </template>
             <el-menu-item
-              :index="'' + subItem.path"
+              :index="'/' + subItem.path"
               v-for="subItem in item.children"
               :key="subItem.id"
+              @click="selectSubItem()"
             >
-              <i class="el-icon-menu"></i>
-              <span slot="title">{{subItem.authName}}</span>
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span slot="title">{{subItem.authName}}</span>
+              </template>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -55,7 +59,8 @@ export default {
         '101': 'iconfont icon-shangpin',
         '102': 'iconfont icon-danju',
         '145': 'iconfont icon-baobiao'
-      }
+      },
+      activePath: ''
     }
   },
   computed: {
@@ -75,6 +80,13 @@ export default {
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
     },
+    selectSubItem() {
+      this.activePath = this.$route.path
+    },
+    // saveNavState(activePath) {
+    //   window.sessionStorage.setItem('activePath', activePath)
+    //   this.activePath = activePath
+    // },
     // 退出登录
     logout() {
       window.sessionStorage.clear()
@@ -83,6 +95,8 @@ export default {
   },
   created() {
     this.getMenuList()
+    // this.activePath = window.sessionStorage.getItem('activePath')
+    this.$route.path === '/welcome' ? this.activePath = '' : this.activePath = this.$route.path
   }
 }
 </script>
