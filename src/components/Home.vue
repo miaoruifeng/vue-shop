@@ -7,7 +7,7 @@
       </div>
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
-    <el-container>
+    <el-container class="main-container">
       <el-aside :width="asideWidth">
         <div class="toggle-btn" @click="toggleCollapse">＜＞</div>
         <el-menu
@@ -96,7 +96,9 @@ export default {
   created() {
     this.getMenuList()
     // this.activePath = window.sessionStorage.getItem('activePath')
-    this.$route.path === '/welcome' ? this.activePath = '' : this.activePath = this.$route.path
+    this.$route.path === '/welcome'
+      ? (this.activePath = '')
+      : (this.activePath = this.$route.path)
   }
 }
 </script>
@@ -121,6 +123,10 @@ export default {
     }
   }
 }
+.main-container {
+  height: 100%;
+  overflow: hidden;
+}
 .el-aside {
   background-color: #333744;
   .toggle-btn {
@@ -133,10 +139,10 @@ export default {
   }
   .el-menu {
     border-right: none;
-    .iconfont {
-      margin-right: 10px;
-    }
   }
+}
+.iconfont {
+  margin: 0 10px;
 }
 .el-main {
   background-color: #eaedf1;
