@@ -19,7 +19,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加商品</el-button>
+          <el-button type="primary" @click="goAddGoods">添加商品</el-button>
         </el-col>
       </el-row>
       <el-table :data="goodsList" border stripe>
@@ -82,11 +82,12 @@ export default {
   data() {
     // 数量和重量检验规则
     const checkNum = (rule, value, cb) => {
-      const regNum = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/
+      // const regNum = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/
+      const regNum = /^\d+(\.{0,1}\d+){0,1}$/
       if (regNum.test(value)) {
         return cb()
       }
-      cb(new Error('请输入非负数值且小数点后最多保留两位!'))
+      cb(new Error('请输入非负数值!'))
     }
     return {
       // 表单数据
@@ -218,6 +219,10 @@ export default {
       }
       this.$message.success('删除商品成功!')
       this.getGoodsList()
+    },
+    // 点击添加商品 跳转到添加商品页
+    goAddGoods() {
+      this.$router.push('/goods/add')
     }
   },
   created() {

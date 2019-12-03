@@ -3,8 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-import './plugins/element'
 import treeTable from 'vue-table-with-tree-grid'
+import VueQuillEditor from 'vue-quill-editor'
+import './plugins/element'
+
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 import './assets/fonts/iconfont.css'
 import './assets/css/global.css'
@@ -18,6 +23,7 @@ Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 Vue.component('tree-table', treeTable)
+Vue.use(VueQuillEditor)
 
 // 转化时间格式的过滤器
 Vue.filter('dateFormat', originVal => {
