@@ -79,6 +79,7 @@
                 :options="cateList"
                 :props="cateProps"
                 @change="handleChange"
+                :disabled="true"
               ></el-cascader>
             </el-form-item>
           </el-tab-pane>
@@ -417,23 +418,6 @@ export default {
         this.getGoodsList()
       })
     },
-    // editGoods() {
-    //   console.log(this.editForm)
-    //   this.$refs.editFormRef.validate(async valid => {
-    //     if (!valid) return
-    //     const { data: res } = await this.$http.put(
-    //       `goods/${this.goods_id}`,
-    //       this.editForm
-    //     )
-    //     console.log(res)
-    //     if (res.meta.status !== 200) {
-    //       return this.$message.error('更新商品信息失败!')
-    //     }
-    //     this.$message.success('更新商品信息成功!')
-    //     this.editDialogVisible = false
-    //     this.getGoodsList()
-    //   })
-    // },
     // 根据商品ID 删除商品
     async removeGoodsById(goodsId) {
       const confirmResult = await this.$confirm(
