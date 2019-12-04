@@ -41,7 +41,7 @@
               size="mini"
               @click="addressDialogVisible = true"
             ></el-button>
-            <el-button type="success" icon="el-icon-location" size="mini"></el-button>
+            <el-button type="success" icon="el-icon-location" size="mini" @click="showProgressBox"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -79,6 +79,16 @@
         <el-button type="primary" @click="addressDialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 展示物流进度的对话框 -->
+    <el-dialog title="物流信息" :visible.sync="progressVisible" width="50%">
+      <el-timeline>
+        <el-timeline-item
+          v-for="(activity, index) in progressdata"
+          :key="index"
+          :timestamp="activity.time"
+        >{{activity.context}}</el-timeline-item>
+      </el-timeline>
+    </el-dialog>
   </div>
 </template>
 
@@ -114,7 +124,11 @@ export default {
         ]
       },
       // 省市区联动数据
-      cityData
+      cityData,
+      // 控制物流信息对话框显示隐藏
+      progressVisible: false,
+      // 物流信息数据
+      progressdata: []
     }
   },
   methods: {
@@ -148,9 +162,23 @@ export default {
     searchOrder() {
       this.getOrderList()
     },
-    // 监听修改地址关闭事件
+    // 监听修改地址对话框关闭事件
     editDialogClosed() {
       this.$refs.editFormRef.resetFields()
+    },
+    // 点击展示物流信息对话框
+    showProgressBox() {
+      this.getProgressData()
+      this.progressVisible = true
+    },
+    // 获取物流信息数据
+    async getProgressData() {
+      const { data: res } = await this.$http.get('/kuaidi/1106975712662')
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取物流信息失败!')
+      }
+      this.progressdata = res.data
+      console.log(this.progressdata)
     }
   },
   created() {
