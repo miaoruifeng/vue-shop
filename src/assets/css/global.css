@@ -35,3 +35,9 @@ body,
 .ql-editor {
 	min-height: 300px;
 }
+
+.el-dialog__body {
+	overflow: hidden;
+	overflow-y: auto;
+	max-height: 50vh;
+}

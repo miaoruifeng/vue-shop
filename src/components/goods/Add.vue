@@ -47,7 +47,7 @@
           </el-tab-pane>
           <el-tab-pane label="商品参数" name="1">
             <el-form-item :label="item.attr_name" v-for="item in manyTableData" :key="item.attr_id">
-              <el-checkbox-group v-model="item.attr_vals">
+              <el-checkbox-group v-model="item.attr_value">
                 <el-checkbox
                   border
                   size="small"
@@ -92,8 +92,9 @@
 import _ from 'lodash'
 export default {
   data() {
-    // 非负数值校验规则
+    // 商品价格校验规则
     const checkNum = (rule, value, cb) => {
+      // const regNum = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/
       const regNum = /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/
       if (regNum.test(value)) {
         return cb()
@@ -136,8 +137,7 @@ export default {
           { validator: checkNum, trigger: 'blur' }
         ],
         goods_weight: [
-          { required: true, message: '请输入商品重量', trigger: 'blur' },
-          { validator: checkNum, trigger: 'blur' }
+          { required: true, message: '请输入商品重量', trigger: 'blur' }
         ],
         goods_number: [
           { required: true, message: '请输入商品数量', trigger: 'blur' },
@@ -220,8 +220,11 @@ export default {
       }
       res.data.forEach(item => {
         item.attr_vals = item.attr_vals ? item.attr_vals.split(' ') : []
+        // 复制一份attr_value数组 用来渲染当前复选框选中状态，默认全选
+        item.attr_value = item.attr_vals
       })
       this.manyTableData = res.data
+      console.log(this.manyTableData)
     },
     // 获取商品属性
     async getOnlyTableData() {
@@ -293,7 +296,7 @@ export default {
         this.manyTableData.forEach(item => {
           const newInfo = {
             attr_id: item.attr_id,
-            attr_value: item.attr_vals.join(' ')
+            attr_value: item.attr_value.join(' ')
           }
           newForm.attrs.push(newInfo)
         })

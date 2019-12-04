@@ -27,7 +27,8 @@ Vue.use(VueQuillEditor)
 
 // 转化时间格式的过滤器
 Vue.filter('dateFormat', originVal => {
-  const dt = new Date(originVal)
+  const dt = new Date()
+  dt.setTime(originVal * 1000)
   const y = dt.getFullYear()
   const m = (dt.getMonth() + 1 + '').padStart(2, '0')
   const d = (dt.getDate() + '').padStart(2, '0')
