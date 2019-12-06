@@ -66,9 +66,11 @@ router.beforeEach((to, from, next) => {
 })
 
 // 解决重复点击路由报错问题
-const routerPush = Router.prototype.push
-Router.prototype.push = function push(location) {
-  return routerPush.call(this, location).catch(error => error)
+if (process.env.NODE_ENV === 'development') {
+  const routerPush = Router.prototype.push
+  Router.prototype.push = function push(location) {
+    return routerPush.call(this, location).catch(error => error)
+  }
 }
 
 export default router

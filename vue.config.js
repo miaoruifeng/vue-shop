@@ -2,12 +2,14 @@ module.exports = {
   chainWebpack: config => {
     // 生产环境
     config.when(process.env.NODE_ENV === 'production', config => {
+      // 配置打包后可视化分析
+      if (process.env.npm_config_report) {
+        config
+          .plugin('webpack-bundle-analyzer')
+          .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+      }
       // 自定义打包入口文件
       config.entry('app').clear().add('./src/main-prod.js')
-      // 配置打包后可视化
-      // config
-      //   .plugin('webpack-bundle-analyzer')
-      //   .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
       // 通过 externals 加载外部 CDN 资源
       config.set('externals', {
         vue: 'Vue',
