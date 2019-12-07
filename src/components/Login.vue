@@ -68,6 +68,14 @@ export default {
         // })
       })
     }
+  },
+  mounted() {
+    let that = this
+    document.onkeydown = function(e) {
+      if (window.event.keyCode === 13 || window.event.keyCode === 100) {
+        that.login()
+      }
+    }
   }
 }
 </script>
